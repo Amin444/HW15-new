@@ -11,7 +11,24 @@ namespace HW15_new
         {
          
         }
-        
+
+        public static void Insert()
+        {
+
+        }
+
+        public static void Select()
+        {
+
+        }
+        public static void Update()
+        {
+
+        }
+        public static void Delete()
+        {
+            
+        }
     }
     class Customer
     {

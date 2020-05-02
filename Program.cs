@@ -16,7 +16,7 @@ namespace HW15_new
           bool b =true;
           while(b)
           {
-
+           Console.Clear();
           System.Console.WriteLine("What i can ->-v");
           System.Console.WriteLine("1->Add ypur id and Balance");
           System.Console.WriteLine("3->Select your id and Balance");
@@ -37,10 +37,26 @@ namespace HW15_new
                 case 3:
                 {
                     Thread ThreadSelect =new Thread(new ThreadStart(Select));
-                    ThreadSelect.start();
-                    ThreadSelect.join();
+                    ThreadSelect.Start();
+                    ThreadSelect.Join();
                 }break;
+
+                case 4:
+                {
+                    Thread ThreadUpdate =new Thread(new ThreadStart(Update));
+                    ThreadUpdate.Start();
+                    ThreadUpdate.Join();
+                }break;
+
+                case 5:
+                {
+                     Thread ThreadDelete =new Thread(new ThreadStart(Delete));
+                    ThreadDelete.Start();
+                    ThreadDelete.Join();
+                }break;
+                case 6:{b=false;}break;
              }
+
           }
 
 
@@ -68,10 +84,12 @@ namespace HW15_new
              Console.Clear();
             System.Console.WriteLine("Loading...");
             Thread.Sleep(3000);
+            Console.Clear();
             foreach(var Customer in CustomerList)
             {
                 System.Console.WriteLine($"Customer id ->{Customer.id} and Balance-> {Customer.Balance}");
             }
+                string stop=Console.ReadLine();
 
         }
         public static void Update()
@@ -88,12 +106,12 @@ namespace HW15_new
         public static void Delete()
         {
                 int DeleteId =int.Parse(Console.ReadLine());
-                foreach(Customer in CustomerList)
+                foreach(var Customer in CustomerList)
                 {
-                    if(DeleteId==id)
+                    if(DeleteId==Customer.id)
                     {
                         CustomerList.Remove(Customer);
-                        System.Console.WriteLine($"your id {Deletid} was delete successful");
+                        System.Console.WriteLine($"your id {DeleteId} was delete successful");
                     }
                 }
             

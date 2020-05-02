@@ -34,6 +34,12 @@ namespace HW15_new
                     ThreadInsert.Join();
                 }break;
 
+                case 3:
+                {
+                    Thread ThreadSelect =new Thread(new ThreadStart(Select));
+                    ThreadSelect.start();
+                    ThreadSelect.join();
+                }break;
              }
           }
 
@@ -44,9 +50,7 @@ namespace HW15_new
 
         public static void Insert()
         {
-            Console.Clear();
-            System.Console.WriteLine("Loading...");
-            Thread.Sleep(3000);
+           
             Console.Clear();
             System.Console.WriteLine("Please Complate form ");
             System.Console.Write("Write your id: ");
@@ -61,15 +65,38 @@ namespace HW15_new
 
         public static void Select()
         {
+             Console.Clear();
+            System.Console.WriteLine("Loading...");
+            Thread.Sleep(3000);
+            foreach(var Customer in CustomerList)
+            {
+                System.Console.WriteLine($"Customer id ->{Customer.id} and Balance-> {Customer.Balance}");
+            }
 
         }
         public static void Update()
         {
+            Console.Clear();
+            System.Console.WriteLine("If you want to Changes please write new meaning");
+            decimal balance =decimal.Parse(Console.ReadLine());
+            foreach (var  Customer in CustomerList)
+            {
+                Customer.Balance=balance;
+            }
 
         }
         public static void Delete()
         {
-
+                int DeleteId =int.Parse(Console.ReadLine());
+                foreach(Customer in CustomerList)
+                {
+                    if(DeleteId==id)
+                    {
+                        CustomerList.Remove(Customer);
+                        System.Console.WriteLine($"your id {Deletid} was delete successful");
+                    }
+                }
+            
         }
 
           public static void CheckBalance(object p)

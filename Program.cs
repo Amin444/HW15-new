@@ -9,6 +9,9 @@ namespace HW15_new
      public static List<Customer> CustomerList = new List<Customer>();
         static void Main(string[] args)
         {
+             TimerCallback timer = new TimerCallback(CheckBalance);
+            Timer tm = new Timer(timer, CustomerList, 0, 10000);
+
           System.Console.WriteLine("Welcome into Clients Base");
           bool b =true;
           while(b)
@@ -26,13 +29,15 @@ namespace HW15_new
              {
                 case 1:
                 {
-                    Thread InsertThread =new Thread(Insert);
-                    InsertThread.Start();
-                    InsertThread.Join();
+                    Thread ThreadInsert=new Thread(new ThreadStart(Insert));
+                    ThreadInsert.Start();
+                    ThreadInsert.Join();
                 }break;
 
              }
           }
+
+
 
 
         }
@@ -49,7 +54,9 @@ namespace HW15_new
             System.Console.WriteLine("================================");
             System.Console.Write("Write ypur Balance:");
             decimal Balance = decimal.Parse(Console.ReadLine());
-
+              decimal LastBalance = Balance;
+            Customer UserInsert=new Customer(id ,Balance,LastBalance);
+            CustomerList.Add(UserInsert);
         }
 
         public static void Select()
@@ -65,6 +72,29 @@ namespace HW15_new
 
         }
 
+          public static void CheckBalance(object p)
+        {
+            int i = 0;
+            foreach (var x in CustomerList)
+            {
+                if (x.Balance > x.LastBalance)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($" Client ID {x.id}  balance after changed is {x.Balance} > {x.LastBalance} <- this is last balance  [+]");
+                    CustomerList[i].LastBalance = CustomerList[i].Balance;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (x.Balance < x.LastBalance)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($" Client ID {x.id} balance after changed is {x.Balance} < {x.LastBalance} <- this is last balance [-]");
+                    CustomerList[i].LastBalance = CustomerList[i].Balance;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                i++;
+            }
+        }
+
     }
 
 
@@ -73,11 +103,13 @@ namespace HW15_new
     {
         public int id {get;set;}
         public decimal Balance{ get; set; }
+        public decimal LastBalance{get;set;}
 
-        public Customer(int id, decimal Balance)
+        public Customer(int id, decimal Balance,decimal LastBalance)
         {
             this.id=id;
             this.Balance=Balance;
+            this.LastBalance=LastBalance;
         }
         public Customer()
         {
